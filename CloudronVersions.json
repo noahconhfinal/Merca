@@ -1,0 +1,34 @@
+{
+  "id": "com.merca.lista",
+  "title": "Merca",
+  "author": "Equipo",
+  "description": "Lista de la compra compartida para el equipo",
+  "tagline": "¿Vas al Mercadona? Mira la lista!",
+  "website": "",
+  "contactEmail": "",
+  "icon": "",
+  "tags": ["productivity"],
+  "versions": [
+    {
+      "version": "1.0.0",
+      "dockerImage": "ghcr.io/noahconhfinal/merca:latest",
+      "manifest": {
+        "id": "com.merca.lista",
+        "title": "Merca",
+        "author": "Equipo",
+        "description": "Lista de la compra compartida para el equipo",
+        "tagline": "¿Vas al Mercadona? Mira la lista!",
+        "version": "1.0.0",
+        "healthCheckPath": "/",
+        "httpPort": 3000,
+        "addons": {},
+        "manifestVersion": 2,
+        "website": "",
+        "contactEmail": "",
+        "tags": ["productivity"],
+        "mediaLinks": [],
+        "postInstallMessage": "La app está lista. Cada usuario puede poner su nombre al entrar."
+      }
+    }
+  ]
+}
