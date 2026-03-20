@@ -1,17 +1,7 @@
 {
-  "id": "com.merca.lista",
-  "title": "Merca",
-  "author": "Equipo",
-  "description": "Lista de la compra compartida para el equipo",
-  "tagline": "¿Vas al Mercadona? Mira la lista!",
-  "website": "",
-  "contactEmail": "",
-  "icon": "",
-  "tags": ["productivity"],
-  "versions": [
-    {
-      "version": "1.0.0",
-      "dockerImage": "ghcr.io/noahconhfinal/merca:latest",
+  "stable": true,
+  "versions": {
+    "1.0.0": {
       "manifest": {
         "id": "com.merca.lista",
         "title": "Merca",
@@ -25,10 +15,13 @@
         "manifestVersion": 2,
         "website": "",
         "contactEmail": "",
+        "icon": "",
         "tags": ["productivity"],
         "mediaLinks": [],
-        "postInstallMessage": "La app está lista. Cada usuario puede poner su nombre al entrar."
-      }
+        "postInstallMessage": "La app está lista. Cada usuario puede poner su nombre al entrar.",
+        "dockerImage": "ghcr.io/noahconhfinal/merca:latest"
+      },
+      "publishState": "published"
     }
-  ]
+  }
 }
