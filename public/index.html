@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4CAF50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Merca - Lista de la compra</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #4CAF50;
+      --green-dark: #388E3C;
+      --green-light: #C8E6C9;
+      --orange: #FF9800;
+      --red: #f44336;
+      --bg: #f5f5f5;
+      --card: #fff;
+      --text: #212121;
+      --text-light: #757575;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: var(--green);
+      color: white;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trip-banner {
+      background: var(--orange);
+      color: white;
+      padding: 12px 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: none;
+      animation: pulse 2s infinite;
+    }
+
+    .trip-banner.active { display: block; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    .trip-banner button {
+      background: rgba(255,255,255,0.3);
+      border: 1px solid white;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 16px;
+      margin-left: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .user-setup {
+      padding: 40px 20px;
+      text-align: center;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .user-setup h2 { margin-bottom: 8px; font-size: 1.3rem; }
+    .user-setup p { color: var(--text-light); margin-bottom: 24px; }
+
+    .user-setup input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .user-setup input:focus { border-color: var(--green); }
+
+    .user-setup button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 14px;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .container { max-width: 600px; margin: 0 auto; padding: 16px; }
+
+    .add-form {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .add-form .row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .add-form input, .add-form select {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .add-form input:focus { border-color: var(--green); }
+
+    .add-form input.qty { flex: 0 0 70px; text-align: center; }
+
+    .add-form button {
+      width: 100%;
+      padding: 12px;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .add-form button:active { background: var(--green-dark); }
+
+    .section-title {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 20px 0 8px 4px;
+      font-weight: 600;
+    }
+
+    .item-list { list-style: none; }
+
+    .item {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.15s, opacity 0.3s;
+    }
+
+    .item:active { transform: scale(0.98); }
+
+    .item.bought {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+
+    .item-check {
+      width: 28px;
+      height: 28px;
+      border: 2.5px solid #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .item-check:hover { border-color: var(--green); }
+    .item-check.checked {
+      background: var(--green);
+      border-color: var(--green);
+      color: white;
+    }
+
+    .item-info { flex: 1; min-width: 0; }
+    .item-name { font-weight: 600; font-size: 1.05rem; }
+    .item-meta { font-size: 0.8rem; color: var(--text-light); margin-top: 2px; }
+    .item-qty {
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .item-delete {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .item-delete:hover { color: var(--red); }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 1rem; }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border-top: 1px solid #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+      justify-content: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .bottom-bar button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      max-width: 280px;
+    }
+
+    .btn-trip {
+      background: var(--orange);
+      color: white;
+    }
+
+    .btn-history {
+      background: #e0e0e0;
+      color: var(--text);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tabs button.active {
+      background: var(--green);
+      color: white;
+    }
+
+    .note-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .note-input:focus { border-color: var(--green); }
+
+    @media (min-width: 600px) {
+      .bottom-bar {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🛒 Merca</h1>
+</header>
+
+<div class="trip-banner" id="tripBanner">
+  <span id="tripText"></span>
+  <button onclick="finishTrip()">Finalizar</button>
+</div>
+
+<div id="userSetup" class="user-setup" style="display:none;">
+  <h2>Hola!</h2>
+  <p>¿Cómo te llamas? Para saber quién pide cada cosa.</p>
+  <input type="text" id="userName" placeholder="Tu nombre" maxlength="30" autocomplete="given-name">
+  <button onclick="saveUser()">Entrar</button>
+</div>
+
+<div id="mainApp" class="container" style="display:none;">
+  <div class="tabs">
+    <button class="active" onclick="showTab('list')">Lista</button>
+    <button onclick="showTab('history')">Historial</button>
+  </div>
+
+  <div id="tabList">
+    <form class="add-form" onsubmit="addItem(event)">
+      <div class="row">
+        <input type="text" id="itemName" placeholder="¿Qué necesitas?" required autocomplete="off">
+        <input type="text" class="qty" id="itemQty" placeholder="Ud." value="1">
+      </div>
+      <div class="row">
+        <input type="text" class="note-input" id="itemNote" placeholder="Nota (opcional, ej: marca, tamaño...)" autocomplete="off">
+      </div>
+      <button type="submit">Añadir a la lista</button>
+    </form>
+
+    <div class="section-title">Pendiente</div>
+    <ul class="item-list" id="itemList"></ul>
+  </div>
+
+  <div id="tabHistory" style="display:none;">
+    <div class="section-title">Comprado recientemente</div>
+    <ul class="item-list" id="historyList"></ul>
+  </div>
+</div>
+
+<div id="bottomBar" class="bottom-bar" style="display:none;">
+  <button class="btn-trip" onclick="startTrip()">🚗 ¡Voy al Mercadona!</button>
+</div>
+
+<script>
+  let currentUser = localStorage.getItem('merca_user');
+  let items = [];
+  let activeTrip = null;
+  let currentTab = 'list';
+
+  function init() {
+    if (!currentUser) {
+      document.getElementById('userSetup').style.display = 'block';
+      document.getElementById('userName').addEventListener('keydown', e => {
+        if (e.key === 'Enter') saveUser();
+      });
+    } else {
+      showApp();
+    }
+  }
+
+  function saveUser() {
+    const name = document.getElementById('userName').value.trim();
+    if (!name) return;
+    currentUser = name;
+    localStorage.setItem('merca_user', name);
+    showApp();
+  }
+
+  function showApp() {
+    document.getElementById('userSetup').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    document.getElementById('bottomBar').style.display = 'flex';
+    loadItems();
+    loadTrip();
+    // Auto-refresh every 10 seconds
+    setInterval(() => {
+      loadItems();
+      loadTrip();
+    }, 10000);
+  }
+
+  async function loadItems() {
+    try {
+      const res = await fetch('/api/items');
+      items = await res.json();
+      renderItems();
+    } catch (e) { console.error(e); }
+  }
+
+  async function loadHistory() {
+    try {
+      const res = await fetch('/api/items/history');
+      const history = await res.json();
+      renderHistory(history);
+    } catch (e) { console.error(e); }
+  }
+
+  async function loadTrip() {
+    try {
+      const res = await fetch('/api/trip');
+      activeTrip = await res.json();
+      updateTripBanner();
+    } catch (e) { console.error(e); }
+  }
+
+  function renderItems() {
+    const list = document.getElementById('itemList');
+    if (items.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="emoji">🛒</div>
+          <p>No hay nada en la lista.<br>¡Añade lo que necesites!</p>
+        </div>`;
+      return;
+    }
+    list.innerHTML = items.map(item => `
+      <li class="item" data-id="${item.id}">
+        <div class="item-check" onclick="buyItem(${item.id})" title="Marcar como comprado"></div>
+        <div class="item-info">
+          <div class="item-name">${esc(item.name)}</div>
+          <div class="item-meta">${esc(item.added_by)}${item.note ? ' · ' + esc(item.note) : ''}</div>
+        </div>
+        <span class="item-qty">×${esc(item.quantity)}</span>
+        <button class="item-delete" onclick="deleteItem(${item.id})" title="Eliminar">✕</button>
+      </li>
+    `).join('');
+  }
+
+  function renderHistory(history) {
+    const list = document.getElementById('historyList');
+    if (history.length === 0) {
+      list.innerHTML = '<div class="empty-state"><p>No hay historial aún</p></div>';
+      return;
+    }
+    list.innerHTML = history.map(item => `
+      <li class="item bought">
+        <div class="item-check checked">✓</div>
+        <div class="item-info">
+          <div class="item-name">${esc(item.name)}</div>
+          <div class="item-meta">Pedido por ${esc(item.added_by)} · Comprado por ${esc(item.bought_by || '?')}</div>
+        </div>
+        <span class="item-qty">×${esc(item.quantity)}</span>
+      </li>
+    `).join('');
+  }
+
+  function updateTripBanner() {
+    const banner = document.getElementById('tripBanner');
+    const text = document.getElementById('tripText');
+    if (activeTrip) {
+      banner.classList.add('active');
+      text.textContent = `🚗 ${activeTrip.started_by} va al Mercadona!`;
+    } else {
+      banner.classList.remove('active');
+    }
+  }
+
+  async function addItem(e) {
+    e.preventDefault();
+    const name = document.getElementById('itemName').value.trim();
+    const quantity = document.getElementById('itemQty').value.trim() || '1';
+    const note = document.getElementById('itemNote').value.trim();
+    if (!name) return;
+
+    try {
+      await fetch('/api/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, quantity, added_by: currentUser, note })
+      });
+      document.getElementById('itemName').value = '';
+      document.getElementById('itemNote').value = '';
+      document.getElementById('itemQty').value = '1';
+      document.getElementById('itemName').focus();
+      loadItems();
+    } catch (e) { console.error(e); }
+  }
+
+  async function buyItem(id) {
+    try {
+      await fetch(`/api/items/${id}/buy`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bought_by: currentUser })
+      });
+      loadItems();
+    } catch (e) { console.error(e); }
+  }
+
+  async function deleteItem(id) {
+    if (!confirm('¿Eliminar este producto?')) return;
+    try {
+      await fetch(`/api/items/${id}`, { method: 'DELETE' });
+      loadItems();
+    } catch (e) { console.error(e); }
+  }
+
+  async function startTrip() {
+    try {
+      await fetch('/api/trip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ started_by: currentUser })
+      });
+      loadTrip();
+    } catch (e) { console.error(e); }
+  }
+
+  async function finishTrip() {
+    try {
+      await fetch('/api/trip/finish', { method: 'POST' });
+      loadTrip();
+    } catch (e) { console.error(e); }
+  }
+
+  function showTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tabs button').forEach((btn, i) => {
+      btn.classList.toggle('active', (i === 0 && tab === 'list') || (i === 1 && tab === 'history'));
+    });
+    document.getElementById('tabList').style.display = tab === 'list' ? 'block' : 'none';
+    document.getElementById('tabHistory').style.display = tab === 'history' ? 'block' : 'none';
+    if (tab === 'history') loadHistory();
+  }
+
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+
+  init();
+</script>
+
+</body>
+</html>

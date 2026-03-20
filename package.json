@@ -1,0 +1,14 @@
+{
+  "name": "merca-lista",
+  "version": "1.0.0",
+  "description": "Lista de la compra compartida para el equipo - Mercadona PWA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "better-sqlite3": "^11.6.0"
+  }
+}
