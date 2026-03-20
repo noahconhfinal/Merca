@@ -1,14 +1,16 @@
-FROM cloudron/base:4.2.0@sha256:46da2fffb36353ef714f97ae8e962bd2c212ca091108d768ba473078319a47f4
+FROM node:20-alpine
 
-RUN mkdir -p /app/code
+RUN mkdir -p /app/code /app/data
 WORKDIR /app/code
 
-COPY package.json /app/code/
+COPY package.json package-lock.json* /app/code/
 RUN npm install --production
 
 COPY . /app/code/
 
-# Cloudron uses /app/data for persistent storage
-RUN mkdir -p /app/data
+ENV PORT=3000
+ENV CLOUDRON_APP_DATA=/app/data
+
+EXPOSE 3000
 
 CMD ["node", "server.js"]
