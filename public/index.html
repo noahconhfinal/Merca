@@ -19,6 +19,8 @@
       --green-light: #C8E6C9;
       --orange: #FF9800;
       --red: #f44336;
+      --blue: #2196F3;
+      --purple: #9C27B0;
       --bg: #f5f5f5;
       --card: #fff;
       --text: #212121;
@@ -31,26 +33,34 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 80px;
+      padding-bottom: 90px;
     }
 
+    /* ── Header ── */
     header {
       background: var(--green);
       color: white;
-      padding: 16px 20px;
+      padding: 14px 20px;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: var(--shadow);
-    }
-
-    header h1 {
-      font-size: 1.4rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
     }
 
+    header h1 { font-size: 1.3rem; }
+
+    .header-user {
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+
+    /* ── Trip Banner ── */
     .trip-banner {
       background: var(--orange);
       color: white;
@@ -59,10 +69,9 @@
       font-weight: 600;
       font-size: 0.95rem;
       display: none;
-      animation: pulse 2s infinite;
     }
 
-    .trip-banner.active { display: block; }
+    .trip-banner.active { display: block; animation: pulse 2s infinite; }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -80,6 +89,7 @@
       font-size: 0.85rem;
     }
 
+    /* ── User Setup ── */
     .user-setup {
       padding: 40px 20px;
       text-align: center;
@@ -98,7 +108,6 @@
       font-size: 1.1rem;
       text-align: center;
       outline: none;
-      transition: border-color 0.2s;
     }
 
     .user-setup input:focus { border-color: var(--green); }
@@ -116,8 +125,34 @@
       cursor: pointer;
     }
 
+    /* ── Container ── */
     .container { max-width: 600px; margin: 0 auto; padding: 16px; }
 
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      margin-bottom: 16px;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 11px 4px;
+      border: none;
+      background: transparent;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tabs button.active { background: var(--green); color: white; }
+
+    /* ── Add Form ── */
     .add-form {
       background: var(--card);
       border-radius: 16px;
@@ -134,60 +169,116 @@
 
     .add-form input, .add-form select {
       flex: 1;
-      padding: 12px;
+      padding: 11px;
       border: 1.5px solid #e0e0e0;
       border-radius: 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       outline: none;
+      background: white;
     }
 
-    .add-form input:focus { border-color: var(--green); }
+    .add-form input:focus, .add-form select:focus { border-color: var(--green); }
+    .add-form .qty { flex: 0 0 65px; text-align: center; }
 
-    .add-form input.qty { flex: 0 0 70px; text-align: center; }
+    .add-form .form-actions {
+      display: flex;
+      gap: 8px;
+    }
 
     .add-form button {
-      width: 100%;
-      padding: 12px;
+      flex: 1;
+      padding: 11px;
       background: var(--green);
       color: white;
       border: none;
       border-radius: 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
     }
 
     .add-form button:active { background: var(--green-dark); }
 
+    .btn-urgent {
+      flex: 0 0 auto !important;
+      background: #fff !important;
+      color: var(--text-light) !important;
+      border: 1.5px solid #e0e0e0 !important;
+      padding: 11px 14px !important;
+      font-size: 1.1rem !important;
+    }
+
+    .btn-urgent.active {
+      background: var(--red) !important;
+      color: white !important;
+      border-color: var(--red) !important;
+    }
+
+    /* ── Favorites Bar ── */
+    .favorites-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 2px 0 12px;
+      scrollbar-width: none;
+    }
+
+    .favorites-bar::-webkit-scrollbar { display: none; }
+
+    .fav-chip {
+      flex-shrink: 0;
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .fav-chip:active { background: var(--green); color: white; }
+
+    /* ── Section Title ── */
     .section-title {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-light);
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin: 20px 0 8px 4px;
+      margin: 16px 0 8px 4px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
+    .section-title .count {
+      background: var(--green);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+    }
+
+    /* ── Item Card ── */
     .item-list { list-style: none; }
 
     .item {
       background: var(--card);
       border-radius: 12px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       margin-bottom: 8px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       transition: transform 0.15s, opacity 0.3s;
     }
 
     .item:active { transform: scale(0.98); }
-
-    .item.bought {
-      opacity: 0.5;
-      text-decoration: line-through;
-    }
+    .item.bought { opacity: 0.5; }
+    .item.urgent { border-left: 4px solid var(--red); }
 
     .item-check {
       width: 28px;
@@ -200,49 +291,79 @@
       justify-content: center;
       flex-shrink: 0;
       transition: all 0.2s;
+      font-size: 0.75rem;
     }
 
     .item-check:hover { border-color: var(--green); }
-    .item-check.checked {
-      background: var(--green);
-      border-color: var(--green);
-      color: white;
-    }
+    .item-check.checked { background: var(--green); border-color: var(--green); color: white; }
 
     .item-info { flex: 1; min-width: 0; }
-    .item-name { font-weight: 600; font-size: 1.05rem; }
-    .item-meta { font-size: 0.8rem; color: var(--text-light); margin-top: 2px; }
+    .item-name { font-weight: 600; font-size: 1rem; }
+    .item-name .cat-badge {
+      font-size: 0.7rem;
+      background: #e3f2fd;
+      color: var(--blue);
+      padding: 1px 6px;
+      border-radius: 8px;
+      margin-left: 6px;
+      font-weight: 500;
+    }
+    .item-meta { font-size: 0.78rem; color: var(--text-light); margin-top: 2px; }
+
+    .item-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
     .item-qty {
       background: var(--green-light);
       color: var(--green-dark);
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      flex-shrink: 0;
+    }
+
+    .item-price {
+      background: #FFF3E0;
+      color: #E65100;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .item-price.no-price {
+      background: #fff8e1;
+      color: #F9A825;
+      border: 1px dashed #F9A825;
+      cursor: pointer;
     }
 
     .item-delete {
       background: none;
       border: none;
       color: #ccc;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
       padding: 4px;
-      flex-shrink: 0;
     }
 
     .item-delete:hover { color: var(--red); }
 
+    /* ── Empty State ── */
     .empty-state {
       text-align: center;
-      padding: 48px 20px;
+      padding: 40px 20px;
       color: var(--text-light);
     }
 
-    .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
-    .empty-state p { font-size: 1rem; }
+    .empty-state .emoji { font-size: 2.5rem; margin-bottom: 10px; }
 
+    /* ── Bottom Bar ── */
     .bottom-bar {
       position: fixed;
       bottom: 0;
@@ -250,7 +371,7 @@
       right: 0;
       background: var(--card);
       border-top: 1px solid #e0e0e0;
-      padding: 12px 20px;
+      padding: 10px 16px;
       display: flex;
       gap: 8px;
       z-index: 100;
@@ -267,62 +388,153 @@
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      max-width: 280px;
+      max-width: 300px;
     }
 
-    .btn-trip {
-      background: var(--orange);
-      color: white;
-    }
+    .btn-trip { background: var(--orange); color: white; }
 
-    .btn-history {
-      background: #e0e0e0;
-      color: var(--text);
-    }
-
-    .tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 16px;
+    /* ── Balance Card ── */
+    .balance-card {
       background: var(--card);
       border-radius: 12px;
-      overflow: hidden;
+      padding: 16px;
+      margin-bottom: 10px;
       box-shadow: var(--shadow);
     }
 
-    .tabs button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      background: transparent;
+    .balance-card h3 {
       font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .debt-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.9rem;
+    }
+
+    .debt-row:last-child { border-bottom: none; }
+
+    .debt-amount {
+      font-weight: 700;
+      color: var(--red);
+      font-size: 1rem;
+    }
+
+    .debt-settle {
+      background: var(--green-light);
+      color: var(--green-dark);
+      border: none;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.78rem;
       font-weight: 600;
-      color: var(--text-light);
       cursor: pointer;
-      transition: all 0.2s;
+      margin-left: 8px;
     }
 
-    .tabs button.active {
-      background: var(--green);
-      color: white;
+    .spent-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.9rem;
     }
 
-    .note-input {
+    .spent-amount { font-weight: 600; color: var(--green-dark); }
+
+    /* ── Trip Summary Card ── */
+    .trip-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .trip-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .trip-card-header strong { font-size: 0.95rem; }
+    .trip-card-header .trip-total {
+      background: #FFF3E0;
+      color: #E65100;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .trip-card .trip-items {
+      font-size: 0.82rem;
+      color: var(--text-light);
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.hidden { display: none; }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 360px;
       width: 100%;
-      padding: 10px 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    .modal h3 { margin-bottom: 16px; font-size: 1.1rem; }
+
+    .modal input {
+      width: 100%;
+      padding: 12px;
       border: 1.5px solid #e0e0e0;
       border-radius: 10px;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       outline: none;
+      margin-bottom: 12px;
+      text-align: center;
     }
 
-    .note-input:focus { border-color: var(--green); }
+    .modal input:focus { border-color: var(--green); }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-actions .btn-cancel { background: #e0e0e0; color: var(--text); }
+    .modal-actions .btn-ok { background: var(--green); color: white; }
 
     @media (min-width: 600px) {
-      .bottom-bar {
-        left: 50%;
-        transform: translateX(-50%);
-      }
+      .bottom-bar { left: 50%; transform: translateX(-50%); }
     }
   </style>
 </head>
@@ -330,13 +542,15 @@
 
 <header>
   <h1>🛒 Merca</h1>
+  <span class="header-user" id="headerUser" onclick="changeUser()" style="display:none;"></span>
 </header>
 
 <div class="trip-banner" id="tripBanner">
   <span id="tripText"></span>
-  <button onclick="finishTrip()">Finalizar</button>
+  <button onclick="finishTrip()">Finalizar viaje</button>
 </div>
 
+<!-- User Setup -->
 <div id="userSetup" class="user-setup" style="display:none;">
   <h2>Hola!</h2>
   <p>¿Cómo te llamas? Para saber quién pide cada cosa.</p>
@@ -344,31 +558,65 @@
   <button onclick="saveUser()">Entrar</button>
 </div>
 
+<!-- Main App -->
 <div id="mainApp" class="container" style="display:none;">
   <div class="tabs">
-    <button class="active" onclick="showTab('list')">Lista</button>
-    <button onclick="showTab('history')">Historial</button>
+    <button class="active" onclick="showTab('list')" id="tabBtnList">Lista</button>
+    <button onclick="showTab('history')" id="tabBtnHistory">Historial</button>
+    <button onclick="showTab('trips')" id="tabBtnTrips">Viajes</button>
+    <button onclick="showTab('balance')" id="tabBtnBalance">Cuentas</button>
   </div>
 
+  <!-- TAB: Lista -->
   <div id="tabList">
+    <div class="favorites-bar" id="favoritesBar"></div>
+
     <form class="add-form" onsubmit="addItem(event)">
       <div class="row">
-        <input type="text" id="itemName" placeholder="¿Qué necesitas?" required autocomplete="off">
+        <input type="text" id="itemName" placeholder="¿Qué necesitas?" required autocomplete="off" list="favSuggestions">
+        <datalist id="favSuggestions"></datalist>
         <input type="text" class="qty" id="itemQty" placeholder="Ud." value="1">
       </div>
       <div class="row">
-        <input type="text" class="note-input" id="itemNote" placeholder="Nota (opcional, ej: marca, tamaño...)" autocomplete="off">
+        <input type="text" id="itemNote" placeholder="Nota (marca, tamaño...)" autocomplete="off" style="flex:1;">
+        <select id="itemCategory" style="flex:0 0 110px;">
+          <option value="">Categoria</option>
+          <option value="Frescos">Frescos</option>
+          <option value="Bebidas">Bebidas</option>
+          <option value="Limpieza">Limpieza</option>
+          <option value="Higiene">Higiene</option>
+          <option value="Congelados">Congelados</option>
+          <option value="Snacks">Snacks</option>
+          <option value="Otros">Otros</option>
+        </select>
       </div>
-      <button type="submit">Añadir a la lista</button>
+      <div class="form-actions">
+        <button type="button" class="btn-urgent" id="btnUrgent" onclick="toggleUrgent()">!!</button>
+        <button type="submit">Añadir a la lista</button>
+      </div>
     </form>
 
-    <div class="section-title">Pendiente</div>
+    <div class="section-title">
+      Pendiente <span class="count" id="itemCount">0</span>
+    </div>
     <ul class="item-list" id="itemList"></ul>
   </div>
 
+  <!-- TAB: Historial -->
   <div id="tabHistory" style="display:none;">
     <div class="section-title">Comprado recientemente</div>
     <ul class="item-list" id="historyList"></ul>
+  </div>
+
+  <!-- TAB: Viajes -->
+  <div id="tabTrips" style="display:none;">
+    <div class="section-title">Viajes al Mercadona</div>
+    <div id="tripsList"></div>
+  </div>
+
+  <!-- TAB: Cuentas -->
+  <div id="tabBalance" style="display:none;">
+    <div id="balanceContent"></div>
   </div>
 </div>
 
@@ -376,11 +624,29 @@
   <button class="btn-trip" onclick="startTrip()">🚗 ¡Voy al Mercadona!</button>
 </div>
 
+<!-- Price Modal -->
+<div class="modal-overlay hidden" id="priceModal">
+  <div class="modal">
+    <h3>¿Cuánto ha costado?</h3>
+    <input type="number" id="priceInput" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closePriceModal()">Cancelar</button>
+      <button class="btn-ok" onclick="submitPrice()">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <script>
   let currentUser = localStorage.getItem('merca_user');
   let items = [];
+  let favorites = [];
   let activeTrip = null;
   let currentTab = 'list';
+  let isUrgent = false;
+  let priceItemId = null;
+  let refreshInterval = null;
+
+  // ── Init ──
 
   function init() {
     if (!currentUser) {
@@ -401,18 +667,31 @@
     showApp();
   }
 
+  function changeUser() {
+    const name = prompt('Cambiar nombre:', currentUser);
+    if (name && name.trim()) {
+      currentUser = name.trim();
+      localStorage.setItem('merca_user', currentUser);
+      document.getElementById('headerUser').textContent = currentUser;
+    }
+  }
+
   function showApp() {
     document.getElementById('userSetup').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
     document.getElementById('bottomBar').style.display = 'flex';
+    document.getElementById('headerUser').style.display = 'block';
+    document.getElementById('headerUser').textContent = currentUser;
     loadItems();
     loadTrip();
-    // Auto-refresh every 10 seconds
-    setInterval(() => {
+    loadFavorites();
+    refreshInterval = setInterval(() => {
       loadItems();
       loadTrip();
     }, 10000);
   }
+
+  // ── Data Loading ──
 
   async function loadItems() {
     try {
@@ -425,8 +704,7 @@
   async function loadHistory() {
     try {
       const res = await fetch('/api/items/history');
-      const history = await res.json();
-      renderHistory(history);
+      renderHistory(await res.json());
     } catch (e) { console.error(e); }
   }
 
@@ -438,8 +716,34 @@
     } catch (e) { console.error(e); }
   }
 
+  async function loadTrips() {
+    try {
+      const res = await fetch('/api/trips');
+      renderTrips(await res.json());
+    } catch (e) { console.error(e); }
+  }
+
+  async function loadBalances() {
+    try {
+      const res = await fetch('/api/balances');
+      renderBalances(await res.json());
+    } catch (e) { console.error(e); }
+  }
+
+  async function loadFavorites() {
+    try {
+      const res = await fetch('/api/favorites');
+      favorites = await res.json();
+      renderFavorites();
+    } catch (e) { console.error(e); }
+  }
+
+  // ── Render: Items ──
+
   function renderItems() {
     const list = document.getElementById('itemList');
+    document.getElementById('itemCount').textContent = items.length;
+
     if (items.length === 0) {
       list.innerHTML = `
         <div class="empty-state">
@@ -448,18 +752,29 @@
         </div>`;
       return;
     }
+
     list.innerHTML = items.map(item => `
-      <li class="item" data-id="${item.id}">
-        <div class="item-check" onclick="buyItem(${item.id})" title="Marcar como comprado"></div>
+      <li class="item${item.urgent ? ' urgent' : ''}" data-id="${item.id}">
+        <div class="item-check" onclick="buyItem(${item.id}, '${esc(item.name)}', '${esc(item.category || '')}', '${esc(item.note || '')}')" title="Comprado"></div>
         <div class="item-info">
-          <div class="item-name">${esc(item.name)}</div>
-          <div class="item-meta">${esc(item.added_by)}${item.note ? ' · ' + esc(item.note) : ''}</div>
+          <div class="item-name">
+            ${esc(item.name)}
+            ${item.category ? '<span class="cat-badge">' + esc(item.category) + '</span>' : ''}
+          </div>
+          <div class="item-meta">
+            ${esc(item.added_by)}${item.note ? ' · ' + esc(item.note) : ''}
+            ${item.urgent ? ' · <span style="color:var(--red);font-weight:600;">URGENTE</span>' : ''}
+          </div>
         </div>
-        <span class="item-qty">×${esc(item.quantity)}</span>
-        <button class="item-delete" onclick="deleteItem(${item.id})" title="Eliminar">✕</button>
+        <div class="item-right">
+          <span class="item-qty">×${esc(item.quantity)}</span>
+          <button class="item-delete" onclick="deleteItem(${item.id})" title="Eliminar">✕</button>
+        </div>
       </li>
     `).join('');
   }
+
+  // ── Render: History ──
 
   function renderHistory(history) {
     const list = document.getElementById('historyList');
@@ -469,55 +784,169 @@
     }
     list.innerHTML = history.map(item => `
       <li class="item bought">
-        <div class="item-check checked">✓</div>
+        <div class="item-check checked" onclick="unbuyItem(${item.id})" title="Devolver a la lista">✓</div>
         <div class="item-info">
           <div class="item-name">${esc(item.name)}</div>
-          <div class="item-meta">Pedido por ${esc(item.added_by)} · Comprado por ${esc(item.bought_by || '?')}</div>
+          <div class="item-meta">
+            ${esc(item.added_by)} → ${esc(item.bought_by || '?')}
+            ${item.bought_at ? ' · ' + formatDate(item.bought_at) : ''}
+          </div>
         </div>
-        <span class="item-qty">×${esc(item.quantity)}</span>
+        <div class="item-right">
+          <span class="item-qty">×${esc(item.quantity)}</span>
+          ${item.price !== null
+            ? '<span class="item-price" onclick="openPriceModal(' + item.id + ', ' + item.price + ')">' + item.price.toFixed(2) + '€</span>'
+            : '<span class="item-price no-price" onclick="openPriceModal(' + item.id + ', 0)">€?</span>'
+          }
+        </div>
       </li>
     `).join('');
   }
 
-  function updateTripBanner() {
-    const banner = document.getElementById('tripBanner');
-    const text = document.getElementById('tripText');
-    if (activeTrip) {
-      banner.classList.add('active');
-      text.textContent = `🚗 ${activeTrip.started_by} va al Mercadona!`;
-    } else {
-      banner.classList.remove('active');
+  // ── Render: Trips ──
+
+  function renderTrips(trips) {
+    const el = document.getElementById('tripsList');
+    if (trips.length === 0) {
+      el.innerHTML = '<div class="empty-state"><p>No hay viajes registrados</p></div>';
+      return;
     }
+    el.innerHTML = trips.map(trip => {
+      const itemNames = trip.items.map(i => i.name).join(', ');
+      return `
+        <div class="trip-card">
+          <div class="trip-card-header">
+            <strong>🚗 ${esc(trip.started_by)}</strong>
+            <span class="trip-total">${trip.total > 0 ? trip.total.toFixed(2) + '€' : 'Sin total'}</span>
+          </div>
+          <div class="trip-items">
+            ${formatDate(trip.created_at)}
+            · ${trip.items.length} productos
+            ${itemNames ? '<br>' + esc(itemNames) : ''}
+          </div>
+        </div>`;
+    }).join('');
   }
+
+  // ── Render: Balances ──
+
+  function renderBalances(data) {
+    const el = document.getElementById('balanceContent');
+    let html = '';
+
+    // Debts
+    html += '<div class="balance-card"><h3>Deudas pendientes</h3>';
+    if (data.debts.length === 0) {
+      html += '<div style="color:var(--text-light);padding:8px 0;font-size:0.9rem;">Todo liquidado, ¡nadie debe nada!</div>';
+    } else {
+      html += data.debts.map(d => `
+        <div class="debt-row">
+          <span><strong>${esc(d.from)}</strong> debe a <strong>${esc(d.to)}</strong></span>
+          <span>
+            <span class="debt-amount">${d.amount.toFixed(2)}€</span>
+            <button class="debt-settle" onclick="settleDbt('${esc(d.from)}','${esc(d.to)}')">Liquidar</button>
+          </span>
+        </div>
+      `).join('');
+    }
+    html += '</div>';
+
+    // Spent per person
+    html += '<div class="balance-card"><h3>Total gastado por persona</h3>';
+    if (data.spent.length === 0) {
+      html += '<div style="color:var(--text-light);padding:8px 0;font-size:0.9rem;">Aún no hay gastos registrados</div>';
+    } else {
+      html += data.spent.map(s => `
+        <div class="spent-row">
+          <span>${esc(s.name)}</span>
+          <span class="spent-amount">${s.total.toFixed(2)}€</span>
+        </div>
+      `).join('');
+    }
+    html += '</div>';
+
+    el.innerHTML = html;
+  }
+
+  // ── Render: Favorites ──
+
+  function renderFavorites() {
+    const bar = document.getElementById('favoritesBar');
+    if (favorites.length === 0) {
+      bar.innerHTML = '';
+      return;
+    }
+    bar.innerHTML = favorites.slice(0, 15).map(f =>
+      `<button class="fav-chip" onclick="quickAdd('${esc(f.name)}', '${esc(f.category || '')}', '${esc(f.note || '')}')">${esc(f.name)}</button>`
+    ).join('');
+
+    // Update datalist suggestions
+    const dl = document.getElementById('favSuggestions');
+    dl.innerHTML = favorites.map(f => `<option value="${esc(f.name)}">`).join('');
+  }
+
+  // ── Actions ──
 
   async function addItem(e) {
     e.preventDefault();
     const name = document.getElementById('itemName').value.trim();
     const quantity = document.getElementById('itemQty').value.trim() || '1';
     const note = document.getElementById('itemNote').value.trim();
+    const category = document.getElementById('itemCategory').value;
     if (!name) return;
 
     try {
       await fetch('/api/items', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, quantity, added_by: currentUser, note })
+        body: JSON.stringify({ name, quantity, added_by: currentUser, note, category, urgent: isUrgent })
       });
       document.getElementById('itemName').value = '';
       document.getElementById('itemNote').value = '';
       document.getElementById('itemQty').value = '1';
+      document.getElementById('itemCategory').value = '';
+      if (isUrgent) toggleUrgent();
       document.getElementById('itemName').focus();
       loadItems();
     } catch (e) { console.error(e); }
   }
 
-  async function buyItem(id) {
+  function quickAdd(name, category, note) {
+    document.getElementById('itemName').value = name;
+    document.getElementById('itemCategory').value = category;
+    document.getElementById('itemNote').value = note;
+    document.getElementById('itemName').focus();
+  }
+
+  function toggleUrgent() {
+    isUrgent = !isUrgent;
+    document.getElementById('btnUrgent').classList.toggle('active', isUrgent);
+  }
+
+  async function buyItem(id, name, category, note) {
     try {
       await fetch(`/api/items/${id}/buy`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bought_by: currentUser })
       });
+      // Auto-add to favorites
+      fetch('/api/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, category, note })
+      }).then(() => loadFavorites());
+      loadItems();
+      // Ask for price
+      openPriceModal(id, 0);
+    } catch (e) { console.error(e); }
+  }
+
+  async function unbuyItem(id) {
+    if (!confirm('¿Devolver a la lista de pendientes?')) return;
+    try {
+      await fetch(`/api/items/${id}/unbuy`, { method: 'PATCH' });
+      loadHistory();
       loadItems();
     } catch (e) { console.error(e); }
   }
@@ -530,7 +959,45 @@
     } catch (e) { console.error(e); }
   }
 
+  // ── Price Modal ──
+
+  function openPriceModal(id, currentPrice) {
+    priceItemId = id;
+    const input = document.getElementById('priceInput');
+    input.value = currentPrice > 0 ? currentPrice : '';
+    document.getElementById('priceModal').classList.remove('hidden');
+    setTimeout(() => input.focus(), 100);
+  }
+
+  function closePriceModal() {
+    document.getElementById('priceModal').classList.add('hidden');
+    priceItemId = null;
+  }
+
+  async function submitPrice() {
+    const price = parseFloat(document.getElementById('priceInput').value);
+    if (isNaN(price) || price < 0) return;
+    try {
+      await fetch(`/api/items/${priceItemId}/price`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price })
+      });
+      closePriceModal();
+      if (currentTab === 'history') loadHistory();
+    } catch (e) { console.error(e); }
+  }
+
+  // Close modal on Enter key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && priceItemId !== null) { e.preventDefault(); submitPrice(); }
+    if (e.key === 'Escape' && priceItemId !== null) closePriceModal();
+  });
+
+  // ── Trips ──
+
   async function startTrip() {
+    if (!confirm('¿Anunciar que vas al Mercadona?')) return;
     try {
       await fetch('/api/trip', {
         method: 'POST',
@@ -542,29 +1009,76 @@
   }
 
   async function finishTrip() {
+    if (!confirm('¿Finalizar el viaje?')) return;
     try {
       await fetch('/api/trip/finish', { method: 'POST' });
       loadTrip();
     } catch (e) { console.error(e); }
   }
 
-  function showTab(tab) {
-    currentTab = tab;
-    document.querySelectorAll('.tabs button').forEach((btn, i) => {
-      btn.classList.toggle('active', (i === 0 && tab === 'list') || (i === 1 && tab === 'history'));
-    });
-    document.getElementById('tabList').style.display = tab === 'list' ? 'block' : 'none';
-    document.getElementById('tabHistory').style.display = tab === 'history' ? 'block' : 'none';
-    if (tab === 'history') loadHistory();
+  function updateTripBanner() {
+    const banner = document.getElementById('tripBanner');
+    const text = document.getElementById('tripText');
+    if (activeTrip) {
+      banner.classList.add('active');
+      const itemCount = activeTrip.items ? activeTrip.items.length : 0;
+      text.textContent = `🚗 ${activeTrip.started_by} va al Mercadona! (${itemCount} comprados)`;
+    } else {
+      banner.classList.remove('active');
+    }
   }
 
+  // ── Balances ──
+
+  async function settleDbt(from, to) {
+    if (!confirm(`¿Liquidar la deuda de ${from} con ${to}?`)) return;
+    try {
+      await fetch('/api/balances/settle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from, to })
+      });
+      loadBalances();
+    } catch (e) { console.error(e); }
+  }
+
+  // ── Tabs ──
+
+  function showTab(tab) {
+    currentTab = tab;
+    ['list', 'history', 'trips', 'balance'].forEach(t => {
+      const el = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+      const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+      if (el) el.style.display = t === tab ? 'block' : 'none';
+      if (btn) btn.classList.toggle('active', t === tab);
+    });
+    if (tab === 'history') loadHistory();
+    if (tab === 'trips') loadTrips();
+    if (tab === 'balance') loadBalances();
+  }
+
+  // ── Helpers ──
+
   function esc(str) {
+    if (!str) return '';
     const d = document.createElement('div');
     d.textContent = str;
     return d.innerHTML;
   }
 
-  // Register service worker
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return 'Ahora';
+    if (diff < 3600000) return Math.floor(diff / 60000) + ' min';
+    if (diff < 86400000) return Math.floor(diff / 3600000) + 'h';
+    return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+  }
+
+  // ── Service Worker ──
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js');
   }
